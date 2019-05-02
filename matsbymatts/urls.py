@@ -17,8 +17,11 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.urls import path
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/users/', include('users.urls')),
+    url(r'^api/inventory/', include('inventory.urls')),
+    url(r'^api/billing/', include('billing.urls')),
 ]
