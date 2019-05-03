@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
 from inventory.models import Manufacturer, Item
-from inventory.serializers import ManufacturerSerializer, ItemSerializer
+from inventory.v1_serializers import ManufacturerSerializer, ItemSerializer
 
 
 class ManufacturerViewSet(viewsets.ModelViewSet):
