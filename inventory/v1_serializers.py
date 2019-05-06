@@ -11,11 +11,10 @@ class ManufacturerSerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    manufacturer_display = SerializerMethodField('get_manufacturer')
-
-    def get_manufacturer(self, obj):
-        return f"Manufacturer ID: {obj.manufacturer.id}"
+    #manufacturer = SerializerMethodField()
+    #def get_manufacturer(self, obj):
+    #    return f"Manufacturer ID: {obj.manufacturer.id}"
 
     class Meta:
         model = Item
-        fields = ('manufacturer_display', 'part_number', 'description', 'cost')
+        fields = ('manufacturer', 'name', 'color', 'cost')
