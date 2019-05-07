@@ -14,7 +14,7 @@ services:
     environment:
       - DATABASE_URL=postgres://postgres@postgres:5432/matsbymatts
       - ENVIRON=local
-      - DJANGO_SETTINGS_MODULE=matsbymats.settings
+      - DJANGO_SETTINGS_MODULE=api.settings
 
   postgres:
     image: postgres:11.2-alpine

@@ -9,6 +9,7 @@ class Manufacturer(models.Model):
 class Item(models.Model):
     manufacturer = models.ForeignKey(Manufacturer, related_name='item', on_delete=models.PROTECT)
     name = models.CharField(max_length=128, default='', blank=True)
+    description = models.CharField(max_length=128, default='', blank=True)
     cost = models.IntegerField()
 
     RED = 'RED'
@@ -28,5 +29,10 @@ class Item(models.Model):
         (VIOLET, 'violet'),
     )
     color = models.CharField(max_length=16, choices=COLOR_CHOICES, default=RED)
+
+    class Meta:
+        indexes = (
+          models.Index(fields=['description']),
+        )
 
 

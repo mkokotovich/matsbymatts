@@ -15,4 +15,4 @@ class V2ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ('manufacturer', 'name', 'color', 'cost', 'country_of_origin')
+        fields = ('manufacturer', 'name', 'description', 'color', 'cost', 'country_of_origin')

@@ -1,0 +1,23 @@
+>>> qs1 = Item.objects.filter(name__startswith="wonder")
+>>> qs2 = Item.objects.filter(description__startswith="wonder")
+>>> print(qs1.explain(verbose=True))
+Seq Scan on public.inventory_item  (cost=0.00..1374.00 rows=505 width=88)
+  Output: id, manufacturer_id, name, description, cost, color
+  Filter: ((inventory_item.name)::text ~~ 'wonder%'::text)
+>>> print(qs2.explain(verbose=True))
+Seq Scan on public.inventory_item  (cost=0.00..1374.00 rows=505 width=88)
+  Output: id, manufacturer_id, name, description, cost, color
+  Filter: ((inventory_item.description)::text ~~ 'wonder%'::text)
+
+
+>>> qs3=Item.objects.filter(name="dainty leech of silent wonder")
+>>> qs4=Item.objects.filter(description="quaint daffodil caracal of refinement")
+>>> print(qs3.explain(verbose=True))
+Seq Scan on public.inventory_item  (cost=0.00..1374.00 rows=1 width=88)
+  Output: id, manufacturer_id, name, description, cost, color
+  Filter: ((inventory_item.name)::text = 'dainty leech of silent wonder'::text)
+>>> print(qs4.explain(verbose=True))
+Index Scan using inventory_i_descrip_072d9d_idx on public.inventory_item  (cost=0.41..8.43 rows=1 width=88)
+  Output: id, manufacturer_id, name, description, cost, color
+  Index Cond: ((inventory_item.description)::text = 'quaint daffodil caracal of refinement'::text)
+>>>

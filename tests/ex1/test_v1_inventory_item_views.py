@@ -1,7 +1,8 @@
 import pytest
+from django.test.utils import CaptureQueriesContext
+from django.db import connection
 
 from tests.factories import ItemFactory
-
 
 @pytest.mark.django_db
 def test_ex1_list_v1_items_db_queries(client, django_assert_num_queries):
