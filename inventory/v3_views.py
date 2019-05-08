@@ -14,8 +14,6 @@ class ManufacturerViewSet(viewsets.ModelViewSet):
 class ItemFilter(FilterSet):
     name = django_filters.CharFilter(field_name="name", lookup_expr='icontains')
     description = django_filters.CharFilter(field_name="description", lookup_expr='icontains')
-    color = django_filters.CharFilter(field_name="color", lookup_expr='istartswith')
-    country = django_filters.CharFilter(field_name="manufacturer__country", lookup_expr='istartswith')
 
 
 class ItemViewSet(viewsets.ModelViewSet):
