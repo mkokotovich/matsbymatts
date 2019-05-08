@@ -38,14 +38,14 @@ class Item(models.Model):
         """
         qs = queryset if queryset is not None else Item.objects.all()
 
-        trigram_limit = 0.2
-        with connection.cursor() as cursor:
-            cursor.execute(f"SELECT set_limit({trigram_limit});")
-
         # From https://docs.djangoproject.com/en/2.2/ref/contrib/postgres/search/#trigramsimilarity
         qs = Item.objects.annotate(
             similarity=TrigramSimilarity('inventor', query),
         ).filter(similarity__gt=0.2).order_by('-similarity')
+
+        #trigram_limit = 0.2
+        #with connection.cursor() as cursor:
+        #    cursor.execute(f"SELECT set_limit({trigram_limit});")
 
         #qs = qs.annotate(
         #    relevance=TrigramSimilarity('inventor', query),
