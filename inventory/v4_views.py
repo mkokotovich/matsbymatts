@@ -23,11 +23,6 @@ class ItemSearchFilter(FilterSet):
 
 
 class ItemViewSet(viewsets.ModelViewSet):
-    queryset = Item.objects.all()
+    queryset = Item.objects.all().select_related('manufacturer')
     serializer_class = V2ItemSerializer
     filter_class = ItemSearchFilter
-
-    def filter_queryset(self, *args, **kwargs):
-        qs = super().filter_queryset(*args, **kwargs)
-        qs.select_related('manufacturer')
-        return qs
