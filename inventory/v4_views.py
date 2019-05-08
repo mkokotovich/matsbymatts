@@ -12,14 +12,14 @@ class ManufacturerViewSet(viewsets.ModelViewSet):
 
 
 class ItemSearchFilter(FilterSet):
-    name = django_filters.CharFilter(field_name="name", method='search_by_name')
+    inventor = django_filters.CharFilter(field_name="inventor", method='search_by_inventor')
 
     class Meta:
         model = Item
-        fields = ['name']
+        fields = ['inventor']
 
-    def search_by_name(self, qs, field_name, value):
-        return Item.search_by_name(value, qs)
+    def search_by_inventor(self, qs, field_name, value):
+        return Item.search_by_inventor(value, qs)
 
 
 class ItemViewSet(viewsets.ModelViewSet):
