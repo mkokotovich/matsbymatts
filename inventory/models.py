@@ -15,24 +15,6 @@ class Item(models.Model):
     cost = models.IntegerField()
     inventor = models.CharField(max_length=128, default='', blank=True)
 
-    RED = 'RED'
-    ORANGE = 'ORANGE'
-    YELLOW = 'YELLOW'
-    GREEN = 'GREEN'
-    BLUE = 'BLUE'
-    INDIGO = 'INDIGO'
-    VIOLET = 'VIOLET'
-    COLOR_CHOICES = (
-        (RED, 'red'),
-        (ORANGE, 'orange'),
-        (YELLOW, 'yellow'),
-        (GREEN, 'green'),
-        (BLUE, 'blue'),
-        (INDIGO, 'indigo'),
-        (VIOLET, 'violet'),
-    )
-    color = models.CharField(max_length=16, choices=COLOR_CHOICES, default=RED)
-
     class Meta:
         indexes = (
           models.Index(fields=['description']),

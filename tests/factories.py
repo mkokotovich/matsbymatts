@@ -30,7 +30,6 @@ class ItemFactory(factory.DjangoModelFactory):
     name = factory.LazyFunction(lambda: ' '.join(generate()))
     description = factory.LazyFunction(lambda: ' '.join(generate()))
     cost = factory.LazyFunction(lambda: random.randint(10, 10000))
-    color = factory.LazyFunction(lambda: random.choice(('RED', 'ORANGE', 'YELLOW', 'GREEN', 'BLUE', 'INDIGO', 'VIOLET')))
     inventor = factory.Faker('name')
     manufacturer = factory.SubFactory(ManufacturerFactory)
 
