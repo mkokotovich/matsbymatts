@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^api/v1/inventory/', include('inventory.v1_urls')),
     url(r'^api/v2/inventory/', include('inventory.v2_urls')),
     url(r'^api/v3/inventory/', include('inventory.v3_urls')),
+    url(r'^api/v4/inventory/', include('inventory.v4_urls')),
     url(r'^api/v1/billing/', include('billing.v1_urls')),
     url(r'^api/v2/billing/', include('billing.v2_urls')),
 ]
