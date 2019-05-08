@@ -1,23 +1,44 @@
 >>> qs1 = Item.objects.filter(name__startswith="wonder")
->>> qs2 = Item.objects.filter(description__startswith="wonder")
 >>> print(qs1.explain(verbose=True))
 Seq Scan on public.inventory_item  (cost=0.00..1374.00 rows=505 width=88)
   Output: id, manufacturer_id, name, description, cost, color
   Filter: ((inventory_item.name)::text ~~ 'wonder%'::text)
+
+>>> qs2 = Item.objects.filter(description__startswith="wonder")
 >>> print(qs2.explain(verbose=True))
 Seq Scan on public.inventory_item  (cost=0.00..1374.00 rows=505 width=88)
   Output: id, manufacturer_id, name, description, cost, color
   Filter: ((inventory_item.description)::text ~~ 'wonder%'::text)
 
 
->>> qs3=Item.objects.filter(name="dainty leech of silent wonder")
->>> qs4=Item.objects.filter(description="quaint daffodil caracal of refinement")
+>>> qs3=Item.objects.filter(name="wonder")
 >>> print(qs3.explain(verbose=True))
 Seq Scan on public.inventory_item  (cost=0.00..1374.00 rows=1 width=88)
   Output: id, manufacturer_id, name, description, cost, color
   Filter: ((inventory_item.name)::text = 'dainty leech of silent wonder'::text)
+
+>>> qs4=Item.objects.filter(description="wonder")
 >>> print(qs4.explain(verbose=True))
 Index Scan using inventory_i_descrip_072d9d_idx on public.inventory_item  (cost=0.41..8.43 rows=1 width=88)
   Output: id, manufacturer_id, name, description, cost, color
   Index Cond: ((inventory_item.description)::text = 'quaint daffodil caracal of refinement'::text)
 >>>
+
+
+
+>>> qs=Item.search_by_inventor("andersonn")
+>>> print(qs.explain())
+Sort  (cost=2846.42..2888.08 rows=16667 width=106)
+  Sort Key: (similarity((inventor)::text, 'andersonn'::text)) DESC
+  ->  Seq Scan on inventory_item  (cost=0.00..1677.67 rows=16667 width=106)
+        Filter: (similarity((inventor)::text, 'andersonn'::text) > '0.2'::double precision)
+
+>>> qs=Item.search_by_inventor("andersonn")
+>>> print(qs.explain())
+Sort  (cost=287.98..288.10 rows=50 width=106)
+  Sort Key: (similarity((inventor)::text, 'andersonn'::text)) DESC
+  ->  Bitmap Heap Scan on inventory_item  (cost=124.39..286.57 rows=50 width=106)
+        Recheck Cond: ((inventor)::text % 'andersonn'::text)
+        ->  Bitmap Index Scan on inventor_trigram_index  (cost=0.00..124.38 rows=50 width=0)
+              Index Cond: ((inventor)::text % 'andersonn'::text)
+

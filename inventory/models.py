@@ -56,22 +56,18 @@ class Item(models.Model):
         """
         qs = queryset if queryset is not None else Item.objects.all()
 
-        # If we were on postgres 9.6 or later, we could tune pg_trgm.similarity_threshold
-        # (or pg_trgm.word_similarity_threshold) in postgres.conf, but this is
-        # the only way I know how to do it in 9.5
-        # The default limit is 0.3, which is too high, it doesn't return enough results
         trigram_limit = 0.2
         with connection.cursor() as cursor:
             cursor.execute(f"SELECT set_limit({trigram_limit});")
 
         # From https://docs.djangoproject.com/en/2.2/ref/contrib/postgres/search/#trigramsimilarity
-        #qs = Item.objects.annotate(
-        #    similarity=TrigramSimilarity('inventor', query),
-        #).filter(similarity__gt=0.2).order_by('-similarity')
+        qs = Item.objects.annotate(
+            similarity=TrigramSimilarity('inventor', query),
+        ).filter(similarity__gt=0.2).order_by('-similarity')
 
-        qs = qs.annotate(
-            relevance=TrigramSimilarity('inventor', query),
-        ).filter(inventor__trigram_similar=query).order_by('-relevance')
+        #qs = qs.annotate(
+        #    relevance=TrigramSimilarity('inventor', query),
+        #).filter(inventor__trigram_similar=query).order_by('-relevance')
 
         return qs
 
